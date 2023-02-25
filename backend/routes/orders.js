@@ -5,6 +5,7 @@ var {
   getStationOrders,
   getAttendance,
   getOrders,
+  getStationInfo,
 } = require("../utils/database");
 
 router.get("/getAllDrivers", async function (req, res, next) {
@@ -142,5 +143,46 @@ router.get("/getExpectedDifference", async function (req, res, next) {
     }
   }
 });
+
+router.get("/getDistance", async function (req, res, next) {
+  if (!req.query?.stationid_from || !req.query?.stationid_to) {
+    res.send({ error: "Please include 2 stationids as params" });
+  } else {
+    const { latitude: lat1, longtitude: lon1 } = (await getStationInfo(req.query.stationid_from))[0];
+    const { latitude: lat2, longtitude: lon2 } = (await getStationInfo(req.query.stationid_to))[0];
+
+    if (!(lat1 && lon1 && lat2 && lon2)) {
+      res.send({
+        distance: 0,
+        stationid_from: req.query.stationid_from,
+        stationid_to: req.query.stationid_to,
+      });
+    } else {
+      res.send({
+        distance: getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2),
+        stationid_from: req.query.stationid_from,
+        stationid_to: req.query.stationid_to,
+      })
+    }
+  }
+});
+
+function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
+  var R = 6371; // Radius of the earth in km
+  var dLat = deg2rad(lat2-lat1);  // deg2rad below
+  var dLon = deg2rad(lon2-lon1); 
+  var a = 
+    Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+    Math.sin(dLon/2) * Math.sin(dLon/2)
+    ; 
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+  var d = R * c; // Distance in km
+  return d;
+}
+
+function deg2rad(deg) {
+  return deg * (Math.PI/180)
+}
 
 module.exports = router;

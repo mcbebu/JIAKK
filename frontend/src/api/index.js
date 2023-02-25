@@ -1,36 +1,44 @@
 import axios from "axios";
 
-const BASE_URL = 'http://localhost:3001';
+const BASE_URL = "http://localhost:3001";
 
 const get = (endpoint, params = undefined) => {
-    return axios.get(BASE_URL + endpoint, {
-        params: params,
-    });
+  return axios.get(BASE_URL + endpoint, {
+    params: params,
+  });
 };
 
 const post = (endpoint, data) => {
-    return axios.post(BASE_URL + endpoint, data);
+  return axios.post(BASE_URL + endpoint, data);
 };
 
 const getAverageDeliveries = (stationid) => {
-    return get("/orders/getAverageDeliveries", { stationid: stationid });
+  return get("/orders/getAverageDeliveries", { stationid: stationid });
 };
 
 const getExpectedOutput = (stationid) => {
-    return get("/orders/getExpectedOutput", { stationid: stationid })
-}
+  return get("/orders/getExpectedOutput", { stationid: stationid });
+};
 
 const getTomorrowDemand = (stationid) => {
-    return get("/orders/getTomorrowDemand", { stationid: stationid })
-}
+  return get("/orders/getTomorrowDemand", { stationid: stationid });
+};
 
 const getExpectedDifference = (stationid) => {
-    return get("/orders/getExpectedDifference", { stationid: stationid })
-}
+  return get("/orders/getExpectedDifference", { stationid: stationid });
+};
+
+const getDistance = (stationid_from, stationid_to) => {
+  return get("/orders/getDistanceFromLatLonInKm", {
+    stationid_from: stationid_from,
+    stationid_to: stationid_to,
+  });
+};
 
 export {
-    getAverageDeliveries,
-    getExpectedOutput,
-    getTomorrowDemand,
-    getExpectedDifference,
+  getAverageDeliveries,
+  getExpectedOutput,
+  getTomorrowDemand,
+  getExpectedDifference,
+  getDistance,
 };
