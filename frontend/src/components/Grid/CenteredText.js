@@ -1,10 +1,8 @@
-import { Text } from "react-native";
-
 const CenteredText = ({ children, styles }) => {
   return (
-    <Text className="text-center" style={styles}>
+    <div className="text-center" style={styles}>
       {children}
-    </Text>
+    </div>
   );
 };
 
