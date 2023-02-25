@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Header/Header";
 import LargeText from "../components/Text/LargeText";
 import TextButton from "../components/Buttons/TextButton";
@@ -9,6 +9,12 @@ import OtherStations from "./OtherStations";
 import BottomSVG from "../assets/Bottom.svg";
 import HomePageCar from "../assets/HomePageCar.svg";
 import HomePageNinjas from "../assets/HomePageNinjas.svg";
+import {
+  getExpectedOutput,
+  getOtherStationsInfo,
+  getStationName,
+  getTomorrowDemand,
+} from "../api";
 
 const RowContainer = ({ children, className }) => {
   return (
@@ -28,15 +34,50 @@ const ColumnContainer = ({ children, className }) => {
   );
 };
 
-const Homepage = () => {
+const Homepage = ({ stationid }) => {
   let tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
 
   const [isHelped, setIsHelped] = useState({
     one: false,
-    two: true,
-    three: true,
+    two: false,
+    three: false,
   });
+
+  const [stationName, setStationName] = useState("");
+  const [expectedDemand, setExpectedDemand] = useState("");
+  const [expectedCapability, setExpectedCapability] = useState("");
+  const [toHelp, setToHelp] = useState(0);
+  const [otherStationInfo, setOtherStationInfo] = useState([
+    {
+      distance: 11.618607740188402,
+      stationid_from: "1",
+      stationid_to: "2",
+      expectedDifference: 50.61643835616438,
+      stationName: "Bedok",
+    },
+    {
+      distance: 8.434661486281879,
+      stationid_from: "1",
+      stationid_to: "3",
+      expectedDifference: 46.43835616438356,
+      stationName: "Woodlands",
+    },
+    {
+      distance: 13.429703238804233,
+      stationid_from: "1",
+      stationid_to: "4",
+      expectedDifference: 51.50684931506849,
+      stationName: "Clementi",
+    },
+    {
+      distance: 26.890417358226436,
+      stationid_from: "1",
+      stationid_to: "5",
+      expectedDifference: 51.09589041095891,
+      stationName: "Tuas",
+    },
+  ]);
 
   const toggleIsHelped = (selector) => {
     setIsHelped((prevState) => {
@@ -50,10 +91,40 @@ const Homepage = () => {
     });
   };
 
+  const handleHelper = (amount) => {
+    setToHelp((prevState) => {
+      return prevState + amount;
+    });
+  };
+
+  useEffect(() => {
+    getStationName(stationid)
+      .then(({ data }) => {
+        setStationName(data.stationName);
+      })
+      .catch((e) => console.log(e.response.data));
+    getExpectedOutput(stationid)
+      .then(({ data }) => {
+        setExpectedCapability(Math.ceil(data.expectedOutput));
+      })
+      .catch((e) => console.log(e.response.data));
+    getTomorrowDemand(stationid)
+      .then(({ data }) => {
+        setExpectedDemand(Math.ceil(data.actualDemand));
+      })
+      .catch((e) => console.log(e.response.data));
+    getOtherStationsInfo(stationid)
+      .then(({ data }) => {
+        setOtherStationInfo(data);
+        console.log(data);
+      })
+      .catch((e) => console.log(e.response.data));
+  }, []);
+
   return (
     <>
       <div className="flex flex-col">
-        <Header locationName={"Yio Chu Kang"} />
+        <Header locationName={stationName} />
         <RowContainer className={"mt-5 justify-between"}>
           <div className="flex flex-col space-y-4 w-1/4">
             <LargeText>Check:</LargeText>
@@ -72,48 +143,77 @@ const Homepage = () => {
         <RowContainer className={"mt-5 justify-between"}>
           <ColumnContainer className="w-1/3 bg-gray-300 rounded-2xl p-4 divide-y-4">
             <RowContainer className={"space-x-5"}>
-              <Circle className={"bg-green-600 w-20 h-20"} />
+              <Circle
+                className={`${
+                  expectedDemand < expectedCapability
+                    ? "bg-green-600"
+                    : "bg-red-600"
+                } w-20 h-20`}
+              />
               <ColumnContainer className={"justify-between text-left"}>
-                <RegularText>Expected Arrival: 60pc</RegularText>
-                <RegularText>Total Predicted Capability: 60pc</RegularText>
+                <RegularText>Expected Arrival: {expectedDemand}pc</RegularText>
+                <RegularText>
+                  Total Predicted Capability: {expectedCapability}pc
+                </RegularText>
               </ColumnContainer>
             </RowContainer>
             <div className="grid grid-rows-2 grid-flow-col gap-4 p-5">
               <RegularText />
               <LargeText className={"text-right"}>-</LargeText>
-              <RegularText className={"text-green-700"}>
-                Expected Arrival: 60pc
+              <RegularText
+                className={
+                  expectedDemand < expectedCapability
+                    ? "text-green-700"
+                    : "text-red-700"
+                }
+              >
+                Additional Capability: {expectedCapability - expectedDemand}pc
               </RegularText>
-              <RegularText>Total Predicted Capability: 60pc</RegularText>
+              <RegularText>Help for other stations: {toHelp}pc</RegularText>
+            </div>
+            <div className="flex flex-row self-center">
+              <RegularText>Remaining Capacity: </RegularText>
+              <RegularText
+                className={
+                  expectedCapability - expectedDemand - toHelp >= 0
+                    ? "text-green-600"
+                    : "text-red-600"
+                }
+              >
+                {expectedCapability - expectedDemand - toHelp} pc
+              </RegularText>
             </div>
           </ColumnContainer>
           <ColumnContainer className={"w-7/12 space-y-5"}>
             <LargeText>Help other stations</LargeText>
             <OtherStations
-              locationName={"Woodlands"}
-              needs={80}
-              distance={1}
+              locationName={otherStationInfo[0]["stationName"]}
+              needs={Math.round(otherStationInfo[0]["expectedDifference"])}
+              distance={Math.round(otherStationInfo[0]["distance"], 2)}
               isHelped={isHelped["one"]}
               toggleTick={toggleIsHelped}
               toggleCross={toggleIsRejected}
+              handleHelper={handleHelper}
               selector="one"
             />
             <OtherStations
-              locationName={"Woodlands"}
-              needs={80}
-              distance={1}
+              locationName={otherStationInfo[1]["stationName"]}
+              needs={Math.round(otherStationInfo[1]["expectedDifference"])}
+              distance={Math.round(otherStationInfo[1]["distance"], 2)}
               isHelped={isHelped["two"]}
               toggleTick={toggleIsHelped}
               toggleCross={toggleIsRejected}
+              handleHelper={handleHelper}
               selector="two"
             />
             <OtherStations
-              locationName={"Woodlands"}
-              needs={80}
-              distance={1}
+              locationName={otherStationInfo[2]["stationName"]}
+              needs={Math.round(otherStationInfo[2]["expectedDifference"])}
+              distance={Math.round(otherStationInfo[2]["distance"], 2)}
               isHelped={isHelped["three"]}
               toggleTick={toggleIsHelped}
               toggleCross={toggleIsRejected}
+              handleHelper={handleHelper}
               selector="three"
             />
           </ColumnContainer>

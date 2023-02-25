@@ -6,6 +6,7 @@ var {
   getAttendance,
   getOrders,
   getStationInfo,
+  getAllStations,
 } = require("../utils/database");
 
 router.get("/getAllDrivers", async function (req, res, next) {
@@ -166,6 +167,85 @@ router.get("/getDistance", async function (req, res, next) {
     }
   }
 });
+
+router.get("/getOtherStationsInfo", async function (req, res, next) {
+  if (!req.query?.stationid) {
+    res.send({ error: "Please include stationid as params" });
+  } else {
+    const stations = await getAllStations();
+    let info = [];
+    for (let i = 0; i < stations.length; i++) {
+      if (stations[i]['station_id'] === req.query.stationid) {
+        continue;
+      }
+
+      let { latitude: lat1, longtitude: lon1 } = (await getStationInfo(req.query.stationid))[0];
+      let { latitude: lat2, longtitude: lon2 } = (await getStationInfo(stations[i]['station_id']))[0];
+
+      let tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      const totalDeliveries = await getStationOrders(
+        stations[i]['station_id'],
+        tomorrow.toISOString()
+      );
+
+      let expectedDifference;
+
+      if (totalDeliveries.length === 0) {
+        expectedDifference = 0;
+      } else {
+        let startDate = Date.parse(totalDeliveries[0]["date_of_delivery"]);
+        let endDate = Date.parse(
+          totalDeliveries[totalDeliveries.length - 1]["date_of_delivery"]
+        );
+        let totalDays = Math.ceil((endDate - startDate) / (1000 * 3600 * 24));
+        let averageDeliveries = totalDeliveries.length / totalDays;
+
+        const expectedAttendance = await getAttendance(
+          req.query.stationid,
+          tomorrow.toISOString()
+        );
+        let expectedOutput = averageDeliveries * expectedAttendance.length;
+
+        const actualDemand = await getOrders(
+          req.query.stationid,
+          tomorrow.toISOString()
+        );
+
+        expectedDifference = expectedOutput - actualDemand.length
+      }
+
+      let { station_name: stationName } = (await getStationInfo(stations[i]['station_id']))[0];
+
+      info.push({
+        distance: getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2),
+        stationid_from: req.query.stationid,
+        stationid_to: stations[i]['station_id'],
+        expectedDifference: expectedDifference,
+        stationName: stationName,
+      })
+    }
+
+    res.send(info);
+  }
+})
+
+router.get("/getStationName", async function (req, res, next) {
+  if (!req.query?.stationid) {
+    res.send({ error: "Please include stationid as params" });
+  } else {
+    const { station_name: stationName } = (await getStationInfo(req.query.stationid))[0];
+
+    if (!stationName) {
+      res.send({ error: "Invalid stationid provided" });
+    } else {
+      res.send({
+        stationName: stationName,
+        stationid: req.query.stationid,
+      })
+    }
+  }
+})
 
 function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
   var R = 6371; // Radius of the earth in km

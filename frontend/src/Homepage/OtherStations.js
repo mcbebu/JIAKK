@@ -15,16 +15,35 @@ const OtherStations = ({
   toggleTick,
   toggleCross,
   selector,
+  handleHelper,
 }) => {
   return (
     <div className="flex flex-row space-x-2">
       <div
-        className={`flex flex-row rounded-2xl justify-evenly align-center space-x-10 p-4 ${
+        className={`flex flex-row rounded-2xl justify-between align-center p-4 w-full ${
           isHelped ? "bg-green-600" : "bg-red-600"
         }`}
       >
-        <IconButton iconSrc={isHelped ? BlackTickIcon : GreenTickIcon} onClick={() => toggleTick(selector)} />
-        <IconButton iconSrc={isHelped ? RedCrossIcon : BlackCrossIcon} onClick={() => toggleCross(selector)} />
+        <div className="flex flex-row space-x-5">
+          <IconButton
+            iconSrc={isHelped ? BlackTickIcon : GreenTickIcon}
+            onClick={() => {
+              if (!isHelped) {
+                toggleTick(selector);
+                handleHelper(needs);
+              }
+            }}
+          />
+          <IconButton
+            iconSrc={isHelped ? RedCrossIcon : BlackCrossIcon}
+            onClick={() => {
+              if (isHelped) {
+                toggleCross(selector);
+                handleHelper(-needs);
+              }
+            }}
+          />
+        </div>
         <div className="flex flex-col">
           <LargeText className={"text-white"}>{locationName}</LargeText>
           <RegularText className={"text-white"}>Needs: {needs} Pc</RegularText>

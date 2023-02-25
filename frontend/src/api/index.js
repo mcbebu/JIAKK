@@ -29,11 +29,21 @@ const getExpectedDifference = (stationid) => {
 };
 
 const getDistance = (stationid_from, stationid_to) => {
-  return get("/orders/getDistanceFromLatLonInKm", {
+  return get("/orders/getDistance", {
     stationid_from: stationid_from,
     stationid_to: stationid_to,
   });
 };
+
+const getStationName = (stationid) => {
+  return get("/orders/getStationName", { 'stationid': stationid });
+};
+
+const getOtherStationsInfo = (stationid) => {
+  return get("/orders/getOtherStationsInfo", { stationid: stationid });
+}
+
+
 
 export {
   getAverageDeliveries,
@@ -41,4 +51,6 @@ export {
   getTomorrowDemand,
   getExpectedDifference,
   getDistance,
+  getStationName,
+  getOtherStationsInfo,
 };

@@ -78,6 +78,17 @@ const getStationInfo = async (stationid) => {
   return data;
 };
 
+const getAllStations = async () => {
+  const { data, error } = await supabase
+    .from("stations")
+    .select("*")
+
+  if (error) {
+    return error;
+  }
+  return data;
+};
+
 module.exports = {
   supabase,
   getAllDrivers,
@@ -86,4 +97,5 @@ module.exports = {
   getAttendance,
   getOrders,
   getStationInfo,
+  getAllStations,
 };
