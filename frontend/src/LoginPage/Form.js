@@ -1,12 +1,17 @@
-import TextInputField from "../components/FormComponents/TextInputField";
-import Title from "../components/Text/Title";
 import { useState } from "react";
+import Title from "../components/Text/Title";
 import EmailIcon from "../assets/Email.svg";
 import PasswordIcon from "../assets/Password.svg";
+import VisibleIcon from "../assets/Visible.svg";
+import InvisibleIcon from "../assets/Invisible.svg";
+import TextInputField from "../components/FormComponents/TextInputField";
+import PasswordInputField from "../components/FormComponents/PasswordInputField";
+import LoginButton from "../components/Buttons/LoginButton";
 
 const Form = ({ title, children }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isVisible, setIsVisible] = useState(true);
 
   const handleEmailKeyPress = (event) => {
     setEmail(event.target.value);
@@ -16,8 +21,15 @@ const Form = ({ title, children }) => {
     setPassword(event.target.value);
   };
 
+  const toggleVisibility = () => {
+    setIsVisible((prevState) => {
+      console.log(prevState);
+      return !prevState;
+    });
+  };
+
   return (
-    <div className="w-full p-20 flex flex-col space-y-10">
+    <div className="w-full relative p-20 flex flex-col space-y-10">
       <Title label={title} />
       <TextInputField
         iconSrc={EmailIcon}
@@ -25,12 +37,17 @@ const Form = ({ title, children }) => {
         textOnChange={handleEmailKeyPress}
         textPlaceholder={"Email Address"}
       />
-      <TextInputField
-        iconSrc={PasswordIcon}
+      <PasswordInputField
+        leftIconSrc={PasswordIcon}
+        rightIconSrc={isVisible ? VisibleIcon : InvisibleIcon}
         textValue={password}
         textOnChange={handlePasswordKeyPress}
         textPlaceholder={"Password"}
+        isVisible={isVisible}
+        toggleVisibility={toggleVisibility}
       />
+      {children}
+      <LoginButton />
     </div>
   );
 };
