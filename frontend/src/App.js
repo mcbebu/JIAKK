@@ -1,8 +1,9 @@
 import LoginPage from "./LoginPage/LoginPage";
+import RequestDetails from "./RequestDetails/RequestDetails"
 
 function App() {
   return (
-    <LoginPage />
+    <RequestDetails></RequestDetails>
   );
 }
 
