@@ -4,10 +4,10 @@ import Homepage from "./Homepage/Homepage";
 
 function App() {
   return (
-    <div>
-      <Homepage></Homepage>
-      <RequestDetails></RequestDetails>
-    </div>
+    <>
+      <Homepage />
+      {/* <RequestDetails></RequestDetails> */}
+    </>
     
   );
 }

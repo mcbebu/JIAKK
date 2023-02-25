@@ -1,16 +1,10 @@
-const IconButton = ({ url, icon }) => {
-  const onClick = (url) => {
-    if (url) {
-      window.open(url, "_blank");
-    }
-  };
-
+const IconButton = ({ onClick, iconSrc }) => {
   return (
     <div
-      onClick={() => onClick(url)}
-      className={`${url ? "cursor-pointer" : ""} mx-1 my-0`}
+      onClick={onClick}
+      className={`${onClick ? "cursor-pointer" : ""} m-auto p-2 w-10 h-10`}
     >
-      <img src={icon} alt="icon button" />
+      <img src={iconSrc} alt="icon button" />
     </div>
   );
 };

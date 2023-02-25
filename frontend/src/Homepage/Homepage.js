@@ -1,155 +1,128 @@
-import React from "react";
-import NinjaLogo1 from "../assets/NinjaVanLogo.svg";
-import Tick from "../assets/Tick.svg";
-import Cross from "../assets/Cross.svg";
-import HomePageCar from "./assets/HomePageBg.svg"
+import React, { useState } from "react";
+import Header from "../components/Header/Header";
+import LargeText from "../components/Text/LargeText";
+import TextButton from "../components/Buttons/TextButton";
+import { getDateString } from "../utils/dateGetter";
+import Circle from "../components/Shapes/Circle";
+import RegularText from "../components/Text/RegularText";
+import OtherStations from "./OtherStations";
+import BottomSVG from "../assets/Bottom.svg";
+import HomePageCar from "../assets/HomePageCar.svg";
+import HomePageNinjas from "../assets/HomePageNinjas.svg";
+
+const RowContainer = ({ children, className }) => {
+  return (
+    <div
+      className={`w-11/12 h-1/4 py-5 flex flex-row self-center ${className}`}
+    >
+      {children}
+    </div>
+  );
+};
+
+const ColumnContainer = ({ children, className }) => {
+  return (
+    <div className={`flex flex-col h-full self-center ${className}`}>
+      {children}
+    </div>
+  );
+};
 
 const Homepage = () => {
-  return (
-    <div>
-      <div class="bg-black flex flex-row p-5">
-        <div class="flex basis-2/3 item-center">
-          <img src={NinjaLogo1}></img>
-        </div>
-        <div class="flex flex-row basis-1/3 items-center">
-          <div class="flex basis-1/2 justify-start">
-            <div class="text-white text-4xl font-bold">Yio Chu Kang</div>
-          </div>
-          <div class="flex basis-1/2 justify-end">
-            <div class="text-white text-lg">Today: 25 Feb 2023</div>
-          </div>
-        </div>
-      </div>
+  let tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
 
-      <div class="flex flex-row">
-        <div class="flex flex-col basis-1/4">
-          <div class="flex">Check:</div>
-          <div class="flex items-center justify-center bg-red-500 text-white mx-3 text-2xl p-5 rounded-lg">
-            26 Feb 2023
+  const [isHelped, setIsHelped] = useState({
+    one: false,
+    two: true,
+    three: true,
+  });
+
+  const toggleIsHelped = (selector) => {
+    setIsHelped((prevState) => {
+      return { ...prevState, [selector]: true };
+    });
+  };
+
+  const toggleIsRejected = (selector) => {
+    setIsHelped((prevState) => {
+      return { ...prevState, [selector]: false };
+    });
+  };
+
+  return (
+    <>
+      <div className="flex flex-col">
+        <Header locationName={"Yio Chu Kang"} />
+        <RowContainer className={"mt-5 justify-between"}>
+          <div className="flex flex-col space-y-4 w-1/4">
+            <LargeText>Check:</LargeText>
+            <TextButton
+              styles={
+                "bg-red-600 rounded-3xl text-center p-4 text-4xl text-white font-bold"
+              }
+            >
+              {getDateString(tomorrow)}
+            </TextButton>
           </div>
-        </div>
-        <div class="flex basis-3/4 justify-end">
-          <div class="flex w-16 h-16 bg-white border-2 rounded-full items-center justify-center text-2xl">
+          <div className="flex w-40 h-40 bg-white border-2 rounded-full drop-shadow-md items-center justify-center text-7xl text-red-600 font-bold">
             Y
           </div>
-        </div>
+        </RowContainer>
+        <RowContainer className={"mt-5 justify-between"}>
+          <ColumnContainer className="w-1/3 bg-gray-300 rounded-2xl p-4 divide-y-4">
+            <RowContainer className={"space-x-5"}>
+              <Circle className={"bg-green-600 w-20 h-20"} />
+              <ColumnContainer className={"justify-between text-left"}>
+                <RegularText>Expected Arrival: 60pc</RegularText>
+                <RegularText>Total Predicted Capability: 60pc</RegularText>
+              </ColumnContainer>
+            </RowContainer>
+            <div className="grid grid-rows-2 grid-flow-col gap-4 p-5">
+              <RegularText />
+              <LargeText className={"text-right"}>-</LargeText>
+              <RegularText className={"text-green-700"}>
+                Expected Arrival: 60pc
+              </RegularText>
+              <RegularText>Total Predicted Capability: 60pc</RegularText>
+            </div>
+          </ColumnContainer>
+          <ColumnContainer className={"w-7/12 space-y-5"}>
+            <LargeText>Help other stations</LargeText>
+            <OtherStations
+              locationName={"Woodlands"}
+              needs={80}
+              distance={1}
+              isHelped={isHelped["one"]}
+              toggleTick={toggleIsHelped}
+              toggleCross={toggleIsRejected}
+              selector="one"
+            />
+            <OtherStations
+              locationName={"Woodlands"}
+              needs={80}
+              distance={1}
+              isHelped={isHelped["two"]}
+              toggleTick={toggleIsHelped}
+              toggleCross={toggleIsRejected}
+              selector="two"
+            />
+            <OtherStations
+              locationName={"Woodlands"}
+              needs={80}
+              distance={1}
+              isHelped={isHelped["three"]}
+              toggleTick={toggleIsHelped}
+              toggleCross={toggleIsRejected}
+              selector="three"
+            />
+          </ColumnContainer>
+        </RowContainer>
       </div>
-
-      <div class="flex flex-row mb-20">
-        <div class="flex basis-1/2 flex-col bg-gray-200 m-10 rounded-lg">
-          <div class="flex flex-row">
-            <div class="flex basis-1/6 items-center justify-center">
-              <div class="flex w-10 h-10 bg-gray-500 rounded-full"></div>
-            </div>
-            <div class="flex flex-col basis-5/6">
-              <div class="flex basis-full">Expected Arrival:</div>
-              <div class="flex basis-full">Total Predicted Capability:</div>
-            </div>
-          </div>
-          <div class="flex flex-col">
-            <div class="flex flex-row">
-              <div class="flex basis-1/6"></div>
-              <div class="flex basis-5/6">Additional Capability</div>
-            </div>
-            <div class="flex flex-row">
-              <div class="flex basis-1/6 justify-center">-</div>
-              <div class="flex basis-5/6">Help from other stations</div>
-            </div>
-            <div class="flex flex-col items-center">Remaining Capacity: X</div>
-          </div>
-        </div>
-        <div class="flex basis-1/2 flex-col mx-10">
-          <div class="flex text-lg font-bold">Help Other Stations</div>
-          <div class="flex basis-full flex-row bg-black text-white rounded-lg">
-            <div class="flex basis-1/6 items-center justify-center">
-              <button
-                className="bg-transparent focus:outline-none bg-center bg-no-repeat bg-cover"
-                style={{
-                  backgroundImage: `url(${Tick})`,
-                  width: "30px",
-                  height: "30px",
-                }}
-              ></button>
-            </div>
-            <div class="flex basis-1/6 items-center justify-center">
-              <button
-                className="bg-transparent focus:outline-none bg-center bg-no-repeat bg-cover"
-                style={{
-                  backgroundImage: `url(${Cross})`,
-                  width: "30px",
-                  height: "30px",
-                }}
-              ></button>
-            </div>
-            <div class="flex basis-1/3 items-center justify-center">
-              Needs: 80Pc
-            </div>
-            <div class="flex basis-1/3 items-center justify-center">
-              Distance: 1km
-            </div>
-          </div>
-          <div class="flex basis-full flex-row bg-red-500 text-white rounded-lg">
-            <div class="flex basis-1/6 items-center justify-center">
-              <button
-                className="bg-transparent focus:outline-none bg-center bg-no-repeat bg-cover"
-                style={{
-                  backgroundImage: `url(${Tick})`,
-                  width: "30px",
-                  height: "30px",
-                }}
-              ></button>
-            </div>
-            <div class="flex basis-1/6 items-center justify-center">
-              <button
-                className="bg-transparent focus:outline-none bg-center bg-no-repeat bg-cover"
-                style={{
-                  backgroundImage: `url(${Cross})`,
-                  width: "30px",
-                  height: "30px",
-                }}
-              ></button>
-            </div>
-            <div class="flex basis-1/3 items-center justify-center">
-              Needs: 30pc
-            </div>
-            <div class="flex basis-1/3 items-center justify-center">
-              Distance: 2km
-            </div>
-          </div>
-          <div class="flex basis-full flex-row bg-red-500 text-white rounded-lg">
-            <div class="flex basis-1/6 items-center justify-center">
-              <button
-                className="bg-transparent focus:outline-none bg-center bg-no-repeat bg-cover"
-                style={{
-                  backgroundImage: `url(${Tick})`,
-                  width: "30px",
-                  height: "30px",
-                }}
-              ></button>
-            </div>
-            <div class="flex basis-1/6 items-center justify-center">
-              <button
-                className="bg-transparent focus:outline-none bg-center bg-no-repeat bg-cover"
-                style={{
-                  backgroundImage: `url(${Cross})`,
-                  width: "30px",
-                  height: "30px",
-                }}
-              ></button>
-            </div>
-            <div class="flex basis-1/3 items-center justify-center">
-              Needs: 65pc
-            </div>
-            <div class="flex basis-1/3 items-center justify-center">
-              Distance: 1.5km
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="relative">
-        <div class="bg-home-page"></div>
-      </div>
-    </div>
+      <img src={BottomSVG} className="absolute w-full" />
+      <img src={HomePageCar} className="absolute left-20 w-80 h-80" />
+      <img src={HomePageNinjas} className="absolute right-20 w-80 h-80" />
+    </>
   );
 };
 
