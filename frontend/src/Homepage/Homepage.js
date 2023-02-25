@@ -141,7 +141,7 @@ const Homepage = ({ stationid }) => {
           </div>
         </RowContainer>
         <RowContainer className={"mt-5 justify-between"}>
-          <ColumnContainer className="w-1/3 bg-gray-300 rounded-2xl p-4 divide-y-4">
+          <ColumnContainer className="w-2/5 bg-gray-300 rounded-2xl p-4 divide-y-4">
             <RowContainer className={"space-x-5"}>
               <Circle
                 className={`${
@@ -172,8 +172,8 @@ const Homepage = ({ stationid }) => {
               <RegularText>Help for other stations: {toHelp}pc</RegularText>
             </div>
             <div className="flex flex-row self-center">
-              <RegularText>Remaining Capacity: </RegularText>
-              <RegularText
+              <LargeText>Remaining Capacity: </LargeText>
+              <LargeText
                 className={
                   expectedCapability - expectedDemand - toHelp >= 0
                     ? "text-green-600"
@@ -181,7 +181,7 @@ const Homepage = ({ stationid }) => {
                 }
               >
                 {expectedCapability - expectedDemand - toHelp} pc
-              </RegularText>
+              </LargeText>
             </div>
           </ColumnContainer>
           <ColumnContainer className={"w-7/12 space-y-5"}>
