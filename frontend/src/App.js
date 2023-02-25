@@ -1,9 +1,14 @@
 import LoginPage from "./LoginPage/LoginPage";
-import RequestDetails from "./RequestDetails/RequestDetails"
+import RequestDetails from "./RequestDetails/RequestDetails";
+import Homepage from "./Homepage/Homepage";
 
 function App() {
   return (
-    <RequestDetails></RequestDetails>
+    <div>
+      <Homepage></Homepage>
+      <RequestDetails></RequestDetails>
+    </div>
+    
   );
 }
 
