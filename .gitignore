@@ -1,1 +1,8 @@
-/frontend/nodes_modules
+/frontend/node_modules
+/backend/node_modules/
+/backend/yarn-error.log
+/backend/.env
+/backend/.nyc_output
+/backend/coverage
+/backend/build/
+/backend/*csv

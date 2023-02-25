@@ -1,12 +1,10 @@
 import CenteredText from "./CenteredText";
 
-const Title = ({ children, color }) => {
+const SubTitle = ({ children, color }) => {
     const defaultStyle = {
-        fontSize: 35,
+        fontSize: 20,
         color: color || 'black',
-        fontWeight: 'bold',
-        marginTop: 20,
-        marginBottom: 20,
+        margin: 10,
     }
 
     return <CenteredText styles={defaultStyle}>
@@ -14,4 +12,4 @@ const Title = ({ children, color }) => {
     </CenteredText>
 }
 
-export default Title;
+export default SubTitle;
