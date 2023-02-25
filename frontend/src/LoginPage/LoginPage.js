@@ -5,7 +5,7 @@ import Form from "./Form";
 import NinjaIcon from "../assets/Ninja.svg";
 import LogoIcon from "../assets/Logo.svg";
 
-const LoginPage = () => {
+const LoginPage = ({ loginHandler }) => {
   const [isChecked, setIsChecked] = useState(false);
 
   const handleOnChecked = () => {
@@ -21,7 +21,7 @@ const LoginPage = () => {
   return (
     <div className="flex flex-col relative justify-evenly bg-cover bg-login-page w-screen h-screen">
       <div className="w-3/4 h-3/4 self-center rounded-3xl bg-red-100/80 flex flex-row justify-between divide-x-4">
-        <Form title={"Login"}>
+        <Form title={"Login"} loginHandler={loginHandler}>
           <ChangePassword
             isChecked={isChecked}
             handleOnChecked={handleOnChecked}

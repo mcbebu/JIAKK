@@ -13,7 +13,7 @@ const PasswordInputField = ({
 }) => {
   return (
     <div className="flex flex-row h-fit space-x-8 border-b-4">
-      <Icon src={leftIconSrc} />
+      <Icon src={leftIconSrc} className={"h-10 h-10"}/>
       {isVisible ? (
         <TextInput
           value={textValue}
@@ -28,7 +28,7 @@ const PasswordInputField = ({
         />
       )}
       <div className="w-fit float-right">
-          <Icon src={rightIconSrc} onClick={toggleVisibility} />
+          <Icon src={rightIconSrc} onClick={toggleVisibility} className={"h-10 h-10"}/>
       </div>
     </div>
   );
