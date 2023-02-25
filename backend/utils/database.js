@@ -31,8 +31,8 @@ const getStationOrders = async (stationid, endDate) => {
     .from("orders")
     .select("*")
     .eq("station_id", stationid)
-    .lt('date_of_delivery', endDate)
-    .order('date_of_delivery', { ascending: true });
+    .lt("date_of_delivery", endDate)
+    .order("date_of_delivery", { ascending: true });
 
   if (error) {
     return error;
@@ -45,7 +45,7 @@ const getAttendance = async (stationid, date) => {
     .from("drivers")
     .select("*")
     .eq("station_id", stationid)
-    .eq('stationed_date', date);
+    .eq("stationed_date", date);
 
   if (error) {
     return error;
@@ -58,13 +58,25 @@ const getOrders = async (stationid, date) => {
     .from("orders")
     .select("*")
     .eq("station_id", stationid)
-    .eq('date_of_delivery', date);
+    .eq("date_of_delivery", date);
 
   if (error) {
     return error;
   }
   return data;
-}
+};
+
+const getStationInfo = async (stationid) => {
+  const { data, error } = await supabase
+    .from("stations")
+    .select("*")
+    .eq("station_id", stationid);
+
+  if (error) {
+    return error;
+  }
+  return data;
+};
 
 module.exports = {
   supabase,
@@ -73,4 +85,5 @@ module.exports = {
   getStationOrders,
   getAttendance,
   getOrders,
+  getStationInfo,
 };
