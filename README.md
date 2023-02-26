@@ -1,5 +1,6 @@
 # JIAKK
 Group Members: Angie, Jaslyn, Kristine, Ming En, Ian
+_View details in slides attached: Team JIAKK .pdf_
 <hr>
 
 ### Problem Statement #5: 
