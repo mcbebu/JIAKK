@@ -69,17 +69,27 @@ Group Members: Angie, Jaslyn, Kristine, Ming En, Ian
 <hr>
 
 ## Our Proposed Solution: Webpage
-Login Page:
+Login Page:\
 <img src="/Images/LoginPage.png" style="height: 400px; width:600px"/>
-Station Information With Manpower Shortage:
+
+
+Station Information With Manpower Shortage:\
 <img src="/Images/StationInformation_Shortage.png" style="height: 400px; width:600px"/>
-Station Information After Receiving Help from Other Stations:
+
+
+Station Information After Receiving Help from Other Stations:\
 <img src="/Images/StationInformation_ReceivedHelp.png" style="height: 400px; width:600px"/>
-Station Information With Manpower Surplus:
+
+
+Station Information With Manpower Surplus:\
 <img src="/Images/StationInformation_Surplus.png" style="height: 400px; width:600px"/>
-Information for Station Providing Help to View:
+
+
+Information for Station Providing Help to View:\
 <img src="/Images/FillForm.png" style="height: 400px; width:600px"/>
-Information for Station Requesting Help to View:
+
+
+Information for Station Requesting Help to View:\
 <img src="/Images/HelpDetails.png" style="height: 400px; width:600px"/>
 
 
