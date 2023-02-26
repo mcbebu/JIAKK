@@ -21,7 +21,7 @@ Group Members:
   **Existing Method: ** 
     - Each delivery man is manually assigned to a quantity of parcels
     - This is subjective, and based on the perceived performance of delivery man
-  **Gaps**
+  **Gaps: **
     - Mismatch of perceived performance and actual delivery amount.
     - Parcels failed to be delivered
     - Loss of consumer goodwill and reputation
