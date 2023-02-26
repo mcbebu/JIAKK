@@ -11,7 +11,7 @@ Group Members: Angie, Jaslyn, Kristine, Ming En, Ian
 
 <hr>
 
-### Manager Journey:
+## Manager Journey:
 1. Start of the Day
     - Manager receives the information of the no. of parcels to be delivered for the day
 3. Planning
@@ -23,8 +23,8 @@ Group Members: Angie, Jaslyn, Kristine, Ming En, Ian
 
 <hr>
 
-### Gaps/Problems:
-###### 1. Inaccuracies in Parcel Allocation
+## Gaps/Problems:
+### 1. Inaccuracies in Parcel Allocation
 **Existing Method:** 
 - Each delivery man is manually assigned to a quantity of parcels
 - This is subjective, and based on the perceived performance of delivery man
@@ -34,7 +34,7 @@ Group Members: Angie, Jaslyn, Kristine, Ming En, Ian
 - Loss of consumer goodwill and reputation
 
 
-###### 2. Poor Utilisation of Manpower Surplus
+### 2. Poor Utilisation of Manpower Surplus
 **Existing Method:**
 
 1. When there is a manpower shortage, the manager finds rescue drivers
@@ -48,13 +48,13 @@ Group Members: Angie, Jaslyn, Kristine, Ming En, Ian
 2b. Delivery men unable to maximise their earnings (Assume Commission) <br>
     
     
-###### 3. Increased Work Pressure on Station Managers
+### 3. Increased Work Pressure on Station Managers
 - Seeking last minute rescue drivers can be a stressful and burdensome job
 - Time used to seek for last minute help may incur loss of time that could have been used for other more      productive tasks
 
 <hr>
 
-### Consequences:
+## Consequences:
    1. Unpunctuality:
       - If backup help is unavailable, parcels will not be delivered on time.
    3. Low Customer Satisfaction
@@ -68,7 +68,7 @@ Group Members: Angie, Jaslyn, Kristine, Ming En, Ian
 
 <hr>
 
-### Our Proposed Solution: Webpage
+## Our Proposed Solution: Webpage
 
 **Target Users:** Station Managers
 
@@ -88,7 +88,7 @@ Group Members: Angie, Jaslyn, Kristine, Ming En, Ian
   
 <hr>
   
-### Overcoming Limitations:
+## Overcoming Limitations:
 **Limitation 1: Low Pick-up Rate**
 
 Store managers may not use the website because:
@@ -101,7 +101,7 @@ Store managers may not use the website because:
 
 <hr>
 
-### Future Extensions:
+## Future Extensions:
 **Future Extension 1: Consideration Factors**
 
 Current: Average daily delivery rate of all drivers in the station is used to obtain our results
