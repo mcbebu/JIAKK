@@ -36,14 +36,20 @@ const getDistance = (stationid_from, stationid_to) => {
 };
 
 const getStationName = (stationid) => {
-  return get("/orders/getStationName", { 'stationid': stationid });
+  return get("/orders/getStationName", { stationid: stationid });
 };
 
 const getOtherStationsInfo = (stationid) => {
   return get("/orders/getOtherStationsInfo", { stationid: stationid });
-}
+};
 
+const login = (email, password) => {
+  return post("/users/login", { email: email, password: password });
+};
 
+const addUser = (email, password) => {
+  return post("/users/create", { email: email, password: password });
+};
 
 export {
   getAverageDeliveries,
@@ -53,4 +59,6 @@ export {
   getDistance,
   getStationName,
   getOtherStationsInfo,
+  login,
+  addUser,
 };

@@ -8,7 +8,7 @@ import TextInputField from "../components/FormComponents/TextInputField";
 import PasswordInputField from "../components/FormComponents/PasswordInputField";
 import LoginButton from "../components/Buttons/LoginButton";
 
-const Form = ({ title, children, loginHandler }) => {
+const Form = ({ title, children, buttonHandler }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isVisible, setIsVisible] = useState(true);
@@ -47,7 +47,11 @@ const Form = ({ title, children, loginHandler }) => {
         toggleVisibility={toggleVisibility}
       />
       {children}
-      <LoginButton onClick={loginHandler}>{title}</LoginButton>
+      <LoginButton onClick={() => {
+        buttonHandler(email, password)
+        setPassword("");
+        setEmail("");
+      }}>{title}</LoginButton>
     </div>
   );
 };
