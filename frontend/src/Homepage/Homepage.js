@@ -34,7 +34,7 @@ const ColumnContainer = ({ children, className }) => {
   );
 };
 
-const Homepage = ({ stationid }) => {
+const Homepage = ({ stationid, activePage, togglePageHandler }) => {
   let tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
 
@@ -124,7 +124,11 @@ const Homepage = ({ stationid }) => {
   return (
     <>
       <div className="flex flex-col">
-        <Header locationName={stationName} />
+        <Header
+          locationName={stationName}
+          activePage={activePage}
+          togglePageHandler={togglePageHandler}
+        />
         <RowContainer className={"mt-5 justify-between"}>
           <div className="flex flex-col space-y-4 w-1/4">
             <LargeText>Check:</LargeText>

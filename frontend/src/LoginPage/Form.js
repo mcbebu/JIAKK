@@ -47,7 +47,7 @@ const Form = ({ title, children, loginHandler }) => {
         toggleVisibility={toggleVisibility}
       />
       {children}
-      <LoginButton onClick={loginHandler}/>
+      <LoginButton onClick={loginHandler}>{title}</LoginButton>
     </div>
   );
 };

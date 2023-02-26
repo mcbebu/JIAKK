@@ -81,13 +81,37 @@ const getStationInfo = async (stationid) => {
 const getAllStations = async () => {
   const { data, error } = await supabase
     .from("stations")
-    .select("*")
+    .select("*");
 
   if (error) {
     return error;
   }
   return data;
 };
+
+const getUser = async (email, password) => {
+  const { data, error } = await supabase
+    .from("users")
+    .select("*")
+    .eq("email", email)
+    .eq("password", password);
+
+  if (error) {
+    return error;
+  }
+  return data;
+}
+
+const addUser = async (email, password) => {
+  const { error } = await supabase
+    .from("users")
+    .insert({ email: email, password: password });
+
+  if (error) {
+    return { status: 400 };
+  }
+  return { status: 200 };
+}
 
 module.exports = {
   supabase,
@@ -98,4 +122,6 @@ module.exports = {
   getOrders,
   getStationInfo,
   getAllStations,
+  getUser,
+  addUser,
 };
